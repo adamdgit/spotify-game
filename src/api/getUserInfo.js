@@ -5,7 +5,7 @@ export async function getUserInfo(token) {
   let userData = []
   let errorMsg = false
   
-  await axios.get(`https://api.spotify.com/v1/me/playlists`, {
+  await axios.get(`https://api.spotify.com/v1/me`, {
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${token}`,
