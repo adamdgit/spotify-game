@@ -3,8 +3,8 @@ import Search from "./components/Search";
 import { getUserInfo } from "./api/getUserInfo";
 
 function App() {
-
-  const CLIENT_ID = SOLID_APP_SPOTIFY_ID;
+ 
+  const CLIENT_ID = import.meta.env.VITE_SPOTIFY_ID;
   const REDIRECT_URI = "http://localhost:3000"
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
   const RESPONSE_TYPE = "token"
@@ -28,15 +28,15 @@ function App() {
   (async function() {
     if(token() !== null) {
       console.log('get user info')
-      const { errorMsg, data } = await getUserInfo(token());
+      const { errorMsg, userData } = await getUserInfo(token());
       if(errorMsg) {
         console.error(errorMsg)
         setToken('')
         window.localStorage.removeItem('token')
       }
       else {
-        setUserID(data.id)
-        setUsername(data.display_name)
+        setUserID(userData.id)
+        setUsername(userData.display_name)
       }
     }
   })();
