@@ -1,14 +1,22 @@
 import { createSignal, createEffect, For } from "solid-js"
-import "./search.css"
+import { createStore } from "solid-js/store"
 import { searchSongs } from "../api/search"
+import "./search.css"
 
 export default function Search(props) {
+
+  console.log('render')
 
   // destructure props, token prop passed as function getter 
   // is destructured as a variable
   const { token, username, userID } = props;
   const [searchQuery, setSearchQuery] = createSignal();
   const [searchResults, setSearchResults] = createSignal();
+  const [selectedArtist, setSelectedArtist] = createSignal();
+
+  createEffect(() => {
+    console.log(selectedArtist())
+  })
 
   async function handleSearch() {
     const { errorMsg, searchResult } = await searchSongs(token, searchQuery())
@@ -32,10 +40,10 @@ export default function Search(props) {
       <div class="search-results">
       <For each={searchResults()}>
         {(item, index) =>
-          <div>
+          <button onClick={() => setSelectedArtist(item.id)}>
             <img src={item.images[1].url} width={160} height={160} />
             {item.name}
-          </div>}
+          </button>}
       </For>
       </div>
 
